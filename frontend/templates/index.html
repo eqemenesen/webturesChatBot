@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Asistanı</title>
+</head>
+<body>
+    <h1>Chat Asistanı</h1>
+    {% for sc in gpt_answers %}
+        <p><strong>Sorgu:</strong> {{ sc.sorgu }}</p>
+        <p><strong>Cevap:</strong> {{ sc.cevap }}</p>
+    {% endfor %}
+    <form action="/" method="post">
+        <input type="hidden" name="tab_id" id="tab_id">
+        Sorgunuzu Girin: <input type="text" name="sorgu">
+        <input type="submit" value="Gönder">
+    </form>
+    {% if show_df_structure %}
+    <script>
+        var dfStructure = "{{ df_structure }}".replace(/\\n/g, "\n");
+        alert(dfStructure);
+    </script>
+    {% endif %}
+    <script>
+        // Generate a unique ID for this tab/session
+        if (!sessionStorage.getItem("tabUID")) {
+            sessionStorage.setItem("tabUID", Date.now().toString(36) + Math.random().toString(36).substr(2));
+        }
+        // Add the tabUID to the hidden field in the form
+        document.getElementById("tab_id").value = sessionStorage.getItem("tabUID");
+    </script>
+</body>
+</html>
